@@ -16,9 +16,17 @@ export const createServer = (): http.Server => {
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
   };
-
+  
   // Apply CORS middleware
   app.use(cors(corsOptions));
+  
+  // Handle preflight requests (OPTIONS)
+  app.options('*', cors(corsOptions));
+  
+  // Example route to test
+  app.get('/', (_req: Request, res: Response) => {
+    res.send('Welcome to the API');
+  });
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 

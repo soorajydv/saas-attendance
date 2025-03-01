@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import authRouter from '../module/auth/auth.routes';
 import suRouter from '../module/organization/organization.routes';
 import { authenticate, authorize } from '../middlewares/auth.middleware';
@@ -10,9 +10,6 @@ import attendanceRouter from '../module/attendance/attendance.routes';
 
 const routes = express.Router();
 
-routes.use('', (_req: Request, res: Response) => {
-    res.send('Welcome to API');
-  });
 routes.use('/auth', authRouter);
 routes.use('/su',[authenticate,authorize(UserRole.SU)], suRouter);
 routes.use('/admin',[authenticate,authorize(UserRole.TEACHER)],adminRouter);
