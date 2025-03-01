@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import RegistrationFormHtml from './registrationFormHtml';
 
 interface RegistrationFormProps {
-  onSubmit: (formData: FormData) => void;
+  onSubmit: (formData: FormData) => Promise<void>; // Update to expect a Promise
   error: string;
   success: string;
 }

@@ -51,7 +51,13 @@ const RegisterAdmin: React.FC = () => {
       <h2>Hi!</h2>
       <p>Please Register here</p>
     </div>
-    <RegistrationForm onSubmit={handleSignup} error={error} success={success} />
+    <RegistrationForm
+  onSubmit={async (formData) => await handleSignup(formData as any)} 
+  error={error}
+  success={success}
+/>
+
+
   </div>
 </div>
 );
