@@ -1,35 +1,24 @@
-import React, { useState } from 'react';
-import RegistrationFormHtml from './registrationFormHtml';
+import React, { useState } from "react";
+import RegistrationFormHtml from "./registrationFormHtml";
+import { AdminFormData } from "../registerAdmin";
 
 interface RegistrationFormProps {
-  onSubmit: (formData: FormData) => Promise<void>; // Update to expect a Promise
+  onSubmit: (formData: AdminFormData) => Promise<void>;
   error: string;
   success: string;
 }
 
-interface FormData {
-  fullName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  dateOfBirth: string;
-  phoneNumber: string;
-  gender: "MALE" | "FEMALE";
-  role: "ADMIN";
-  organizationId: string;
-}
-
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit, error, success }) => {
-  const [formData, setFormData] = useState<FormData>({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    dateOfBirth: '',
-    phoneNumber: '',
-    gender: 'MALE',
-    role: 'ADMIN',
-    organizationId: '',
+  const [formData, setFormData] = useState<AdminFormData>({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    dateOfBirth: "",
+    phoneNumber: "",
+    gender: "MALE",
+    role: "ADMIN",
+    organizationId: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
