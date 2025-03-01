@@ -1,0 +1,49 @@
+.dashboard-container {
+  min-height: 100vh;
+  background: #f5f6fa;
+}
+
+.dashboard-nav {
+  background: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-tab {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.nav-tab:hover {
+  background: #f0f0f0;
+}
+
+.nav-tab.active {
+  background: #007bff;
+  color: white;
+}
+
+.dashboard-content {
+  padding: 2rem;
+}
+

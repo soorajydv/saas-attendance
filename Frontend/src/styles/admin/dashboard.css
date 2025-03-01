@@ -1,0 +1,146 @@
+.dashboard-content {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; /* Allows cards to wrap to the next row when needed */
+  gap: 1rem; /* Adds space between the cards */
+}
+
+
+.modern-table {
+  background-color: rgba(180, 180, 180, 0.74);
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+.modern-table th,
+.modern-table td {
+  max-height: 2rem;
+  padding: 12px;
+  text-align: left;
+}
+
+.modern-table tbody tr {
+  height: 20px; /* Set the desired height for rows */
+}
+
+.modern-table tbody td {
+  padding-top: 6px; /* Adjust top padding */
+  padding-bottom: 6px; /* Adjust bottom padding */
+}
+
+.modern-table thead th {
+  background-color: #ffffff86;
+  color: #333;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.modern-table tbody tr {
+  height: 2rem;
+  transition: 0.3s ease, transform 0.3s ease;
+  background-color: #ffffffad;
+}
+
+.modern-table tbody tr:hover {
+  background-color: #e6e6e691;
+  transform: scale(1.05); /* Add a slight scale effect for hover */
+}
+
+
+.modern-table tbody tr td button {
+  background:none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+
+.list-section{
+  height: 10vh;
+  width: 20vw;
+}
+
+.list-header{
+  font-family: -webkit-body;
+  margin-top: 4rem;
+}
+.list-section h3 {
+  background-color: rgb(211, 207, 196);
+  width: 15rem;
+  font-size: 1.25rem;
+  padding: 10px;
+  margin-top: 1rem;
+  box-shadow: 4px 4px 4px 4px rgba(0.09, 0.09, 0.09, 0.09); /* Light shadow */
+  border-radius: 8px; 
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.card {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgb(186, 208, 241);
+  min-height: 14vh;
+  min-width: 15vw;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+}
+  .card-section{
+    display: flex;
+    flex-wrap: wrap; /* Allows cards to wrap to the next row when needed */
+    gap: 5rem;
+  }
+  .card:hover {
+    background-color: #ffffff50;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .icon-container {
+    width: 50px;
+    height: 50px;
+  }
+
+  .rounded-full{
+    align-content: space-around;
+    margin: 1rem;
+    background: none;
+    height: 4rem;
+    border-radius: calc(infinity* 1px);
+  }
+
+
+  @media (max-width: 768px) {
+    .card{
+      height: 4rem;
+      width: 10rem;
+    }
+    .sidebar{
+      backdrop-filter: blur(20px);
+      position: fixed;
+      bottom: 0; /* Position the navbar at the top */
+      left: 0; /* Align it to the left */
+      right: 0; /* Align it to the right */
+    }
+  }
+
+  @media (max-width: 480px) {
+  .card{
+    height: 4rem;
+    width: 10rem;
+  }
+}

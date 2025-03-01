@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es6",
+    "module": "esnext",
+    "forceConsistentCasingInFileNames": true, // Enable consistent casing for imports
+    "strict": true,                           // Enable all strict type-checking options
+    "skipLibCheck": true,
+    "baseUrl": ".", // Required for paths to work
+    "paths": {
+      "@/*": ["src/*"] // Map @ to the src folder
+    },
+    "jsx": "react-jsx",  // Add this line
+    "lib": ["dom", "es2019"], 
+    "esModuleInterop": true,  // Add this line
+  },
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
