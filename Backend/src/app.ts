@@ -11,7 +11,7 @@ export const createServer = (): http.Server => {
 
   // CORS Configuration
   const corsOptions = {
-    origin: 'https://saas-attendance-frontend.vercel.app,http://localhost:5000', // Frontend URL
+    origin: ['https://saas-attendance-frontend.vercel.app', 'http://localhost:5000'], // Frontend URLs
     credentials: true, // Allow credentials (cookies)
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
