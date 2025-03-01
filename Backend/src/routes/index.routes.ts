@@ -10,7 +10,7 @@ import attendanceRouter from '../module/attendance/attendance.routes';
 
 const routes = express.Router();
 
-routes.get('/',(_req:Request, res:Response)=> res.status(200).json({message:'Welcome to API'}));
+routes.get('/',(_req:Request, res:Response)=> res.send('Welcome to API'));
 routes.use('/auth', authRouter);
 routes.use('/su',[authenticate,authorize(UserRole.SU)], suRouter);
 routes.use('/admin',[authenticate,authorize(UserRole.TEACHER)],adminRouter);
