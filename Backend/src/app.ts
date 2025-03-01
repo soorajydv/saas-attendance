@@ -11,11 +11,14 @@ export const createServer = (): http.Server => {
 
   // CORS Configuration
   const corsOptions = {
-    origin: 'http://localhost:5000', // Frontend URL
+    origin: [
+      'http://localhost:5000', 
+      'https://saas-attendance-frontend-ilutx4y1n-ydv-soorajs-projects.vercel.app'
+    ], // List of allowed frontend URLs
     credentials: true, // Allow credentials (cookies)
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-  };
+  };  
 
   // Apply CORS middleware
   app.use(cors(corsOptions));
