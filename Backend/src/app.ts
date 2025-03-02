@@ -9,20 +9,33 @@ import routes from './routes/index.routes';
 export const createServer = (): http.Server => {
   const app = express();
 
-  // CORS Configuration
-  const corsOptions = {
-    origin: ['https://saas-attendance-frontend.vercel.app', 'http://localhost:5000'], // Frontend URLs
-    credentials: true, // Allow credentials (cookies)
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-  };
+// CORS Configuration
+const corsOptions = {
+  origin: ['https://saas-attendance-frontend.vercel.app', 'http://localhost:5000'], // Allowed frontend URLs
+  credentials: true, // Allow cookies and authentication headers
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow headers
+};
+
+// ✅ Apply CORS Middleware
+app.use(cors(corsOptions));
+
+// ✅ Handle Preflight Requests (for OPTIONS method)
+app.options('*', cors(corsOptions));
   
-  // Apply CORS middleware
-  app.use(cors(corsOptions));
+app.use((req:Request, res:Response, next:NextFunction) => {
+  res.header('Access-Control-Allow-Origin', 'https://saas-attendance-frontend.vercel.app'); // Allowed origin
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   
-  // Handle preflight requests (OPTIONS)
-  app.options('*', cors(corsOptions));
-  
+  // Handle preflight request properly
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+
+  return next();
+});
+
   // Example route to test
   app.get('/', (_req: Request, res: Response) => {
     res.send('Welcome to the API');
