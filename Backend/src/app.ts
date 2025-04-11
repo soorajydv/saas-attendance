@@ -6,64 +6,55 @@ import { BASE_PATH } from './config/env.cofig';
 import { errorHandler } from './middlewares/errorHandler';
 import { apiLimiter } from './middlewares/rateLimiter';
 import routes from './routes/index.routes';
+
 export const createServer = (): http.Server => {
   const app = express();
 
-// CORS Configuration
-const corsOptions = {
-  origin: ['https://mark01-frontend.vercel.app', 'http://localhost:5000'], // Allowed frontend URLs
-  credentials: true, // Allow cookies and authentication headers
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // Allow HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow headers
-};
+  // ✅ CORS Configuration
+  const corsOptions = {
+    origin: ['https://mark01-frontend.vercel.app', 'http://localhost:5000'], // Allowed frontend origins
+    credentials: true, // Allow cookies and auth headers
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  };
 
-// ✅ Apply CORS Middleware
-app.use(cors(corsOptions));
+  // ✅ Apply CORS Middleware
+  app.use(cors(corsOptions));
 
-// ✅ Handle Preflight Requests (for OPTIONS method)
-app.options('*', cors(corsOptions));
-  
-app.use((req:Request, res:Response, next:NextFunction) => {
-  res.header('Access-Control-Allow-Origin', 'https://mark01-frontend.vercel.app'); // Allowed origin
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
-  // Handle preflight request properly
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
+  // ✅ Handle Preflight Requests
+  app.options('*', cors(corsOptions));
 
-  return next();
-});
-
-  // Example route to test
-  app.get('/', (_req: Request, res: Response) => {
-    res.send('Welcome to the API');
-  });
+  // ✅ Built-in Middleware
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // Serve static files (e.g., CSS)
+  // ✅ Serve Static Files (if needed)
   app.use(express.static('public'));
 
-  // Error handling middleware (optional)
+  // ✅ Logging
+  app.use(morgan('dev'));
+
+  // ✅ Rate Limiter
+  app.use('/api', apiLimiter);
+
+  // ✅ Routes
+  app.use(BASE_PATH, routes);
+
+  // ✅ Error Handling Middleware
+  app.use(errorHandler);
+
+  // ✅ Fallback Error Handler (optional)
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     console.error(err);
     res.status(500).json({ message: 'Internal server error' });
   });
 
-  // Logging middleware
-  app.use(morgan('dev'));
+  // ✅ Example Test Route (optional)
+  app.get('/', (_req: Request, res: Response) => {
+    res.send('Welcome to the API');
+  });
 
-  // Rate limiter middleware
-  app.use('/api', apiLimiter);
-
-  //  API routes Versioning
-  app.use(BASE_PATH, routes);
-
-  app.use(errorHandler);
-
-  // Config Socket
+  // ✅ Create HTTP Server
   const server = http.createServer(app);
   return server;
 };
