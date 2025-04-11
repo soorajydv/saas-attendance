@@ -13,7 +13,7 @@ export const createServer = (): http.Server => {
 const corsOptions = {
   origin: ['https://mark01-frontend.vercel.app', 'http://localhost:5000'], // Allowed frontend URLs
   credentials: true, // Allow cookies and authentication headers
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow HTTP methods
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // Allow HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allow headers
 };
 
@@ -24,7 +24,7 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
   
 app.use((req:Request, res:Response, next:NextFunction) => {
-  res.header('Access-Control-Allow-Origin', 'https://saas-attendance-frontend.vercel.app'); // Allowed origin
+  res.header('Access-Control-Allow-Origin', 'https://mark01-frontend.vercel.app'); // Allowed origin
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   
