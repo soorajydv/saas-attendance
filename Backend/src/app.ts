@@ -2,7 +2,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import express, { NextFunction, Request, Response } from 'express';
 import http from 'http';
-import { BASE_PATH } from './config/env.cofig';
+import { BASE_PATH, NODE_ENV } from './config/env.cofig';
 import { errorHandler } from './middlewares/errorHandler';
 import { apiLimiter } from './middlewares/rateLimiter';
 import routes from './routes/index.routes';
@@ -41,15 +41,20 @@ export const createServer = (): http.Server => {
   app.use(BASE_PATH, routes);
 
   app.set('trust proxy', 1);
-  
+
   // ✅ Error Handling Middleware
   app.use(errorHandler);
 
   // ✅ Fallback Error Handler (optional)
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    console.error(err);
-    res.status(500).json({ message: 'Internal server error' });
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  console.error('🔥 Internal Error:', err);
+
+  res.status(500).json({
+    message: 'Internal server error',
+    error: NODE_ENV !== 'production' ? err.message : undefined
   });
+});
+
 
   // ✅ Example Test Route (optional)
   app.get('/', (_req: Request, res: Response) => {
