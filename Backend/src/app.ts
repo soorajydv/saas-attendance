@@ -40,6 +40,8 @@ export const createServer = (): http.Server => {
   // ✅ Routes
   app.use(BASE_PATH, routes);
 
+  app.set('trust proxy', 1);
+  
   // ✅ Error Handling Middleware
   app.use(errorHandler);
 
