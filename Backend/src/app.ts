@@ -4,7 +4,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import http from 'http';
 import { BASE_PATH, NODE_ENV } from './config/env.cofig';
 import { errorHandler } from './middlewares/errorHandler';
-import { apiLimiter } from './middlewares/rateLimiter';
+// import { apiLimiter } from './middlewares/rateLimiter';
 import routes from './routes/index.routes';
 
 export const createServer = (): http.Server => {
@@ -35,7 +35,7 @@ export const createServer = (): http.Server => {
   app.use(morgan('dev'));
 
   // ✅ Rate Limiter
-  app.use('/api', apiLimiter);
+  // app.use('/api', apiLimiter);
 
   // ✅ Routes
   app.use(BASE_PATH, routes);
