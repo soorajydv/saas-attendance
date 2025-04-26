@@ -7,7 +7,7 @@ export const getClassesByTeacherId = async(teacherId:string) => {
         { $match: {"periods.teacherId": new Types.ObjectId(teacherId)} },
         {
             $project:{
-                _id:0,
+                _id:1,
                 name:1,
                 section:1,
                 period:"$periods.period",

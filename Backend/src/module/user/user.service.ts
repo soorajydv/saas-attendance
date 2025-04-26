@@ -2,14 +2,31 @@ import { IUser } from '../../models/interfaces/IUser';
 import User from '../../models/users';
 
 export const getUserById = async (_id: string) => {
-  const user = await User.findById(_id)
+  const user = await User.findById(_id).select('-password')
   return user;
 };
 
 export const getUsersByIds = async (ids: string[]) => User.find({_id:{$in: ids}});
 
-export const getUserByEmailOrPhone = async (email: string,number?:number) => 
-  User.findOne({$or:[{email:email},{phoneNumber:number}]})
+export const getUserByEmailOrPhone = async (email: string,_number?:number) =>{
+  const result =  (await User.find({email}));
+  console.log(email,"   Result: ",result);
+
+
+  console.log("   Users: ",await User.find());
+
+  return result.length > 0 ? result[0] : null;
+  
+}
+  // User.findOne({$or:[{email:email},{phoneNumber:number}]})
+
+
+
+  
+
+  // return await User.findOne({email:email.trim()})
+
+
 
 
 export const createUser =  async (user: IUser) => User.create(user);
@@ -57,3 +74,12 @@ export const getAdmins = async (
     },
   ]).sort({ createdAt: sortOrder }).limit(pageSize).skip((pageNumber - 1) * pageSize);;
 };
+
+export const getAllUsers = async(
+  pageNumber: number,
+  pageSize: number,
+  sortOrder: -1 | 1,
+) => User.find({deletedAt : {$exists:false}})
+  .skip((pageNumber - 1) * pageSize) // Skip the records for pagination
+  .limit(pageSize) // Limit the number of records returned
+  .sort({ createdAt: sortOrder });

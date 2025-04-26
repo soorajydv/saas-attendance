@@ -1,8 +1,7 @@
 import { Response } from "express";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 import QRCode from "qrcode";
-import { Attendance } from "../attendance/attendance.model";
-import moment from "moment";
+// import moment from "moment";
 import { sendBadRequest, sendSuccess } from "../../utils/responseUtil";
 
 export const generateQR = async (req: AuthRequest, res: Response) => {
@@ -15,18 +14,18 @@ export const generateQR = async (req: AuthRequest, res: Response) => {
     }
 };
 
-export const scanQR = async (req: AuthRequest, res: Response) => {
-    try {
-        const { id } = req.params;
-        const date = moment().format("YYYY-MM-DD");
-        const time = moment().format("HH:mm:ss");
-        const attendAt = date.concat(time);
+// export const scanQR = async (req: AuthRequest, res: Response) => {
+//     try {
+//         const { id } = req.params;
+//         const date = moment().format("YYYY-MM-DD");
+//         const time = moment().format("HH:mm:ss");
+//         const attendAt = date.concat(time);
 
-        const attendance = new Attendance({ id, date: attendAt });
-        await attendance.save();
+//         // const attendance = new Attendance({ id, date: attendAt });
+//         await attendance.save();
 
-        return sendSuccess(res,"Attendance recorded");
-    } catch (error) {
-        return sendBadRequest(res,"Error marking attendance");
-    }
-};
+//         return sendSuccess(res,"Attendance recorded");
+//     } catch (error) {
+//         return sendBadRequest(res,"Error marking attendance");
+//     }
+// };

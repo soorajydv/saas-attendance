@@ -14,6 +14,7 @@ export interface IUser extends Document, SoftDeleteDocument {
   address?: IAddress; // User's address (Address interface)
   role?: UserRole; // Role of the user (from UserRole enum)
   organizationId: string; // Organization reference (MongoDB ObjectId)
+  crn?: string; // User's CRN (optional)
   OTP?: string; // One-time password (optional)
   OTPExpiresAt?: Date; // OTP expiry date (optional)
   isVerified?: boolean; // User's email/phone verification status

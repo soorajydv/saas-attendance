@@ -3,7 +3,7 @@ import { authenticate, authorize } from '../../middlewares/auth.middleware';
 import { UserRole } from '../../models/enums';
 import { validateId } from '../../validators/id.validator';
 import { createAdmin, createOne, deleteOne, getAll, getOne, updateOne } from './organization.controller';
-import { adminRegisterValidator } from '../auth/signup.validator';
+import { adminRegisterValidator } from '../auth/auth.validator';
 import { createOrganizationValidator, updateOrganizationValidator } from './organization.validator';
 import { userController } from '../user/user.controller';
 import { queryValidator } from '../../validators/query.validator';

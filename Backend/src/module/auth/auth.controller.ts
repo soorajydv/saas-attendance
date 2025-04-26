@@ -2,16 +2,21 @@ import { Request, Response } from 'express';
 import { Encrypt } from '../../helpers/helpers';
 import User from '../../models/users';
 import { getUserByEmailOrPhone, getUserById } from '../user/user.service';
-import { sendBadRequest, sendNotFound } from '../../utils/responseUtil';
+import { sendBadRequest, sendError, sendNotFound, sendSuccess } from '../../utils/responseUtil';
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from '../../config/env.cofig';
+import crypto from 'crypto';
+import sendEmail from '../../utils/nodemailer';
 
 class AuthController {
   login = async (req: Request, res: Response): Promise<any> => {
     try {
       const { email, password } = req.body;
+console.log("Email: ", email);
 
       const user = (await getUserByEmailOrPhone(email)) as any;
+      console.log("User: ",user);
+      
       if (!user) {
         return sendNotFound(res, 'User doesnot exist');
       }
@@ -28,7 +33,7 @@ class AuthController {
       res.cookie("token", token, {
         httpOnly: true, // Prevent JavaScript access
         secure: true,   // Ensures it's sent over HTTPS
-        sameSite: "strict", // Prevents CSRF
+        sameSite: "none", // Prevents CSRF
         maxAge: 3600000, // 1 hour
       });
       const role = user.role;
@@ -100,6 +105,54 @@ class AuthController {
       return res.status(401).json({ message: "Invalid token" });
     }
   };
+
+  forgotPassword = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const { email } = req.body;
+
+      const user = await getUserByEmailOrPhone(email);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      const OTP = crypto.randomBytes(3).toString('hex');
+      user.OTP = OTP;
+
+      user.OTPExpiresAt = new Date(Date.now() + 3600000); // 1 hour
+      await user.save();
+    
+      await sendEmail(email, 'Reset Your Password', `Your OTP is: ${OTP}`);
+    
+      return sendSuccess(res, 'OTP sent to your email');
+    } catch (error) {
+      console.error(error);
+      return sendError(res,'Internal server error',error);
+    }
+  }
+
+  resetPassword = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const { email, otp, newPassword } = req.body;
+
+      const user = await getUserByEmailOrPhone(email);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      if (user.OTP !== otp) return sendBadRequest(res,'Invalid OTP');
+      if (user.OTPExpiresAt! < new Date()) return sendBadRequest(res, 'OTP expired');
+
+      user.password = await Encrypt.encryptpass(newPassword);
+      user.OTP = undefined;
+      user.OTPExpiresAt = undefined;
+      await user.save();
+
+      return sendSuccess(res, 'Password reset successfully');
+    } catch (error) {
+      console.error(error);
+      return sendError(res,'Internal server error',error);
+    }
+  }
 }
 
 export const authController = new AuthController();

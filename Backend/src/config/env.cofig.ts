@@ -12,3 +12,10 @@ export const MONGO_URI = process.env.MONGO_URI as string;
 export const NODE_ENV = process.env.NODE_ENV as string;
 export const PORT = process.env.PORT || 5000;
 export const SMS_API_KEY = process.env.SMS_API_KEY as string;
+export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME as string;
+export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY as string;
+export const GMAIL_USER = process.env.GMAIL_USER as string;
+export const GMAIL_PASSWORD = process.env.GMAIL_PASSWORD as string;
+
+
+

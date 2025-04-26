@@ -1,9 +1,32 @@
-import { model, Schema } from "mongoose";
-import { IAttendance } from "./attendance.interface";
+import { Schema, model } from 'mongoose';
+import { AttendanceStatus } from '../../models/enums';
+import { IAttendance } from '../../models/interfaces/IAttendance.interface';
 
-const attendanceSchema: Schema = new Schema({
-    studentId: { type: Schema.Types.ObjectId, ref: "User" },
-    timestamp: { type: Date, default: Date.now },
-});
+const studentAttendanceSchema: Schema = new Schema(
+  {
+    studentId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    period: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: Object.values(AttendanceStatus),
+      default: Object.values(AttendanceStatus.ABSENT),
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export const Attendance = model<IAttendance>("Attendance", attendanceSchema);
+// Ensure uniqueness (same student, same date, same period)
+studentAttendanceSchema.index({ studentId: 1, period: 1, date: 1 }, { unique: true });
+
+const StudentAttendance = model<IAttendance>('StudentAttendance', studentAttendanceSchema);
+
+export default StudentAttendance;

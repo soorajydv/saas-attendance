@@ -22,7 +22,7 @@ const userSchema: Schema = new Schema(
       minLength: 10,
       maxLength: 70,
     },
-    address: addressSchema,
+    address: { type: addressSchema, default: null },
     role: {
       type: String,
       enum: UserRole,
@@ -36,8 +36,13 @@ const userSchema: Schema = new Schema(
     },
     busId: {
       type: Schema.Types.ObjectId,
-      ref: 'Bus', unique: true
+      ref: 'Bus'
     },
+    classId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Class'
+    },
+    crn: { type: String, unique: true },
     OTP: { type: String },
     OTPExpiresAt: { type: Date },
     isVerified: { type: Boolean, default: false },

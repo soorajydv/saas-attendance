@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { emailSchema, passwordSchema } from './login.validator';
 import { zodSchemaValidator } from '../../validators/schemaValidator';
 
 // Calculate the minimum date for 16 years of age
@@ -58,6 +57,13 @@ const genderSchema = z.enum(['MALE', 'FEMALE', 'OTHERS'], {
   }),
 });
 
+export const emailSchema = z.string().email('Invalid email format');
+export const passwordSchema = z
+  .string()
+  .min(8, 'Password must be at least 8 characters long')
+  .regex(/[a-zA-Z]/, 'Password must contain at least one letter')
+  .regex(/[0-9]/, 'Password must contain at least one number');
+
 const registerSchema = z.object({
   fullName: fullNameSchema,
   email: emailSchema,
@@ -80,5 +86,22 @@ const adminRegisterSchema = registerSchema.extend({
   }),
 });
 
+const loginSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
+
+const resetPasswordSchema = z.object({
+  email: emailSchema,
+  otp: z
+  .string()
+  .regex(/^[A-Za-z0-9]{6}$/, {
+    message: 'OTP must be exactly 6 alphanumeric characters',
+  }),
+  newPassword: passwordSchema,
+});
+
+export const resetPasswordValidator = zodSchemaValidator(resetPasswordSchema);
+export const loginValidator = zodSchemaValidator(loginSchema);
 export const registerValidator = zodSchemaValidator(registerSchema);
 export const adminRegisterValidator = zodSchemaValidator(adminRegisterSchema);

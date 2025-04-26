@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Encrypt } from "../../helpers/helpers";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 import { sendConflict, sendBadRequest, sendCreated, sendNotFound, sendUnauthorized, sendSuccess, sendFound } from "../../utils/responseUtil";
-import { getUserByEmailOrPhone, createUser, getUserById, updateUserById, getUsersByOrganizationId, getAdmins } from "./user.service";
+import { getUserByEmailOrPhone, createUser, getUserById, updateUserById, getUsersByOrganizationId, getAdmins, getAllUsers } from "./user.service";
 import User from "../../models/users";
 
 class UserController {
@@ -95,5 +95,15 @@ class UserController {
   };
 
 }
+
+export const getAllUsersForSuperAdmin = async (req: Request, res: Response) => {
+  const { limit = 5, page = 1, sort = 'asc' } = req.query;
+  const pageNumber = Number(page);
+  const pageSize = Number(limit);
+  const skip = (pageNumber - 1) * pageSize;
+  const sortOrder = sort === 'desc' ? -1 : 1;
+  const users = await getAllUsers(skip, pageSize, sortOrder);
+  return sendFound(res, "Users found", { users, totalPages: Math.ceil(users.length / pageSize), currentPage: pageNumber });
+  };
 
 export const userController = new UserController();
