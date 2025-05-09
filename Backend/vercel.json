@@ -6,12 +6,6 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/src/index.ts"
-    }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",
@@ -28,7 +22,10 @@
           "key": "Access-Control-Allow-Headers",
           "value": "Content-Type, Authorization"
         },
-        { "key": "Access-Control-Allow-Credentials", "value": "true" }
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        }
       ]
     }
   ],
